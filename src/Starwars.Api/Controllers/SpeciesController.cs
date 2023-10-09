@@ -1,4 +1,6 @@
-﻿namespace Starwars.Api.Controllers;
+﻿using Starwars.Swapi.Domain.Models;
+
+namespace Starwars.Api.Controllers;
 
 [Authorize]
 [ApiController]

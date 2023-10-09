@@ -1,6 +1,4 @@
-﻿using Starwars.Swapi.Domain.Models.Entities;
-
-namespace Starwars.Swapi.Domain.Services
+﻿namespace Starwars.Swapi.Domain.Services
 {
     public interface ICacheService
     {

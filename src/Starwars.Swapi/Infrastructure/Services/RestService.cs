@@ -1,7 +1,4 @@
-﻿using Starwars.Swapi.Domain.Services;
-using Starwars.Swapi.Domain.Utils;
-
-namespace Starwars.Swapi.Infrastructure.Services;
+﻿namespace Starwars.Swapi.Infrastructure.Services;
 
 public class RestService : IRestService
 {

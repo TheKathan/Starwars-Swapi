@@ -1,8 +1,4 @@
-﻿using Starwars.Swapi.Domain;
-using Starwars.Swapi.Domain.Services;
-using Starwars.Swapi.Infrastructure.Services;
-
-namespace Starwars.Swapi;
+﻿namespace Starwars.Swapi;
 
 public static class SwapiServiceCollectionExtension
 {

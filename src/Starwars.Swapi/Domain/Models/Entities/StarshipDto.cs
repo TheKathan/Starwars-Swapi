@@ -1,6 +1,4 @@
-﻿using Starwars.Swapi.Domain.Utils;
-
-namespace Starwars.Swapi.Domain.Models.Entities;
+﻿namespace Starwars.Swapi.Domain.Models.Entities;
 
 public class StarshipDto : IRepositoryModel
 {

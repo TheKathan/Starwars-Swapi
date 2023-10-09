@@ -1,7 +1,4 @@
-﻿using Starwars.Swapi.Domain.Models;
-using Starwars.Swapi.Domain.Services;
-
-namespace Starwars.Swapi;
+﻿namespace Starwars.Swapi;
 
 public class SwapiClient
 {

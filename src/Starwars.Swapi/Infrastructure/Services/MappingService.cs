@@ -1,10 +1,4 @@
-﻿using Starwars.Swapi.Domain;
-using Starwars.Swapi.Domain.Models;
-using Starwars.Swapi.Domain.Models.Entities;
-using Starwars.Swapi.Domain.Services;
-using Starwars.Swapi.Domain.Utils;
-
-namespace Starwars.Swapi.Infrastructure.Services;
+﻿namespace Starwars.Swapi.Infrastructure.Services;
 
 public class MappingService : IMappingService
 {

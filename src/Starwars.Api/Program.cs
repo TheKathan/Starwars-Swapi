@@ -1,3 +1,6 @@
+using Starwars.Swapi;
+using Starwars.Swapi.Domain.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddLogging();
@@ -18,8 +21,6 @@ builder.Services.AddMemoryCache();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
-
-// builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
 builder.Services.AddTransient<DataContext>();
 builder.Services.AddTransient<IJwtService, JwtService>();

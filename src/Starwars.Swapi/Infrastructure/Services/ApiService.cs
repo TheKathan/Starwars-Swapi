@@ -1,8 +1,4 @@
-﻿using Starwars.Swapi.Domain.Models.Entities;
-using Starwars.Swapi.Domain.Models.Responses;
-using Starwars.Swapi.Domain.Services;
-
-namespace Starwars.Swapi.Infrastructure.Services;
+﻿namespace Starwars.Swapi.Infrastructure.Services;
 
 public class ApiService : IApiService
 {

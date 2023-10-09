@@ -1,9 +1,4 @@
-﻿using Starwars.Swapi.Domain;
-using Starwars.Swapi.Domain.Models;
-using Starwars.Swapi.Domain.Models.Entities;
-using Starwars.Swapi.Domain.Services;
-
-namespace Starwars.Swapi.Infrastructure.Services
+﻿namespace Starwars.Swapi.Infrastructure.Services
 {
     public class CacheService : ICacheService
     {

@@ -11,5 +11,3 @@ global using Starwars.Infrastructure.Services;
 global using Starwars.Middleware;
 global using Starwars.Middleware.Helpers;
 global using Starwars.Repository;
-global using Starwars.Swapi;
-global using Starwars.Swapi.Domain.Models;
