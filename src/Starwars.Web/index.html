@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Star Wars App</title>
+  <!-- Include Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      margin-top: 30px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-primary {
+      width: 100%;
+    }
+
+    .mt-3 {
+      margin-top: 15px;
+    }
+
+    .list-group-item {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div id="loginAndRegistration" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div id="loginFormContainer" class="form-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        <p class="mt-3">Don't have an account? <a href="#" id="showRegistrationLink">Register</a></p>
+      </div>
+
+      <div id="registrationFormContainer" class="form-container" style="display: none;">
+        <h2>Register</h2>
+        <form id="registrationForm">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" required>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="registrationPassword" name="password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        <p class="mt-3">Already have an account? <a href="#" id="showLoginLink">Login</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="filmListPage" class="container mt-5 d-none">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2>Film List</h2>
+      <!-- Loading Spinner -->
+      <div id="loadingSpinner" class="container text-center mt-5 d-none">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <p>Loading...</p>
+      </div>
+      <ul id="filmList" class="list-group d-none">
+        <!-- Film list items will be populated here -->
+      </ul>
+      <button id="logoutButton" class="btn btn-danger mt-3">Logout</button>
+      <!-- Add a modal for displaying more film details -->
+      <div class="modal fade" id="filmDetailsModal" tabindex="-1" role="dialog" aria-labelledby="filmDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="filmDetailsModalLabel">Film Details</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="filmDetailsContent">
+              <!-- Film details will be displayed here -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Character Details Modal -->
+<div class="modal fade" id="characterDetailsModal" tabindex="-1" role="dialog" aria-labelledby="characterDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="characterDetailsModalLabel">Character Details</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="characterDetailsContent">
+        <!-- Character details will be displayed here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Planet Details Modal -->
+<div class="modal fade" id="planetDetailsModal" tabindex="-1" role="dialog" aria-labelledby="planetDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="planetDetailsModalLabel">Planet Details</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="planetDetailsContent">
+        <!-- Planet details will be displayed here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Starship Details Modal -->
+<div class="modal fade" id="starshipDetailsModal" tabindex="-1" role="dialog" aria-labelledby="starshipDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-warning text-white">
+        <h5 class="modal-title" id="starshipDetailsModalLabel">Starship Details</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="starshipDetailsContent">
+        <!-- Starship details will be displayed here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Vehicle Details Modal -->
+<div class="modal fade" id="vehicleDetailsModal" tabindex="-1" role="dialog" aria-labelledby="vehicleDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="vehicleDetailsModalLabel">Vehicle Details</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="vehicleDetailsContent">
+        <!-- Vehicle details will be displayed here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Specie Details Modal -->
+<div class="modal fade" id="specieDetailsModal" tabindex="-1" role="dialog" aria-labelledby="specieDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title" id="specieDetailsModalLabel">Species Details</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="specieDetailsContent">
+        <!-- Species details will be displayed here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Include Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- JavaScript Code -->
+<script>
+  // Starting z-index value
+  let highestZIndex = 1050;
+  
+  // Base URL for API endpoints
+  const apiBaseUrl = 'http://localhost:5000';
+
+  // Simulated JWT token (replace with actual token)
+  let authToken = null;
+
+  // Function to show/hide login and film list pages
+  async function togglePages() {
+    const loginAndRegistration = document.getElementById('loginAndRegistration');
+    const filmListPage = document.getElementById('filmListPage');
+
+    if (authToken) {
+      loginAndRegistration.classList.add('d-none');
+
+      // Show loading spinner while fetching film data
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      loadingSpinner.classList.remove('d-none');
+
+      try {
+        // Retrieve and populate the film list from the API
+        await populateFilmList();
+
+        // Hide loading spinner and show film list
+        loadingSpinner.classList.add('d-none');
+        filmListPage.classList.remove('d-none');
+      } catch (error) {
+        console.error('An error occurred:', error);
+        alert('Failed to retrieve film data. Please try again.');
+      }
+    } else {
+      loginAndRegistration.classList.remove('d-none');
+      filmListPage.classList.add('d-none');
+    }
+  }
+
+  // Function to authenticate and retrieve JWT token from the API
+  async function authenticateUser(username, password) {
+    try {
+      const response = await fetch(`${apiBaseUrl}/User/authenticate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Username: username,
+          Password: password,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.token) {
+          // Store user data in a cookie
+          createCookie(data);
+
+          return data.token; // Return the JWT token
+        } else {
+          throw new Error('Token not found in response');
+        }
+      } else {
+        throw new Error('Authentication failed');
+      }
+    } catch (error) {
+      console.error('Authentication error:', error);
+      throw error;
+    }
+  }
+
+  // Function to create a cookie with user data
+  function createCookie(authResponse) {
+    const cookieData = {
+      Id: authResponse.Id,
+      FirstName: authResponse.FirstName,
+      LastName: authResponse.LastName,
+      Username: authResponse.Username,
+      Email: authResponse.Email,
+      Token: authResponse.Token
+    };
+
+    // Convert the data to a JSON string
+    const cookieValue = JSON.stringify(cookieData);
+
+    // Set the cookie with an expiration date (e.g., 1 day from now)
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 1);
+
+    // Construct the cookie string
+    // Set the cookie
+    document.cookie = `userData=${encodeURIComponent(cookieValue)}; expires=${expirationDate.toUTCString()}; path=/`;
+  }
+
+  function getUserDataFromCookie() {
+    const cookieValue = document.cookie
+            .split('; ')
+            .find((row) => row.startsWith('userData='));
+
+    if (cookieValue) {
+      const userData = decodeURIComponent(cookieValue.split('=')[1]);
+      return JSON.parse(userData);
+    }
+
+    return null;
+  }
+
+  function clearUserDataCookie() {
+    document.cookie = 'userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  }
+
+  // Function to handle login form submission
+  async function handleLoginSubmit(e) {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      const token = await authenticateUser(username, password);
+      authToken = token;
+
+      // Retrieve and populate the film list from the API
+      await togglePages();
+    } catch (error) {
+      alert('Authentication failed. Please check your credentials.');
+    }
+  }
+
+  // Event handler for login form submission
+  document.getElementById('loginForm').addEventListener('submit', handleLoginSubmit);
+
+  // Function to handle registration form submission
+  async function handleRegistrationSubmit(e) {
+    e.preventDefault();
+
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('registrationPassword').value;
+
+    try {
+      const response = await fetch(`${apiBaseUrl}/User/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          FirstName: firstName,
+          LastName: lastName,
+          Email: email,
+          Password: password,
+        }),
+      });
+
+      if (response.ok) {
+        alert('Registration successful. You can now login.');
+        toggleForms(true); // Switch to the login form after registration
+      } else {
+        throw new Error('Registration failed');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('Registration failed. Please try again.');
+    }
+  }
+
+  // Event handler for registration form submission
+  document.getElementById('registrationForm').addEventListener('submit', handleRegistrationSubmit);
+
+  // Function to retrieve film data from the API
+  async function populateFilmList() {
+    try {
+      // Show loading spinner while fetching data
+      document.getElementById('loadingSpinner').classList.remove('d-none');
+
+      const response = await fetch(`${apiBaseUrl}/Films`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+
+      if (response.ok) {
+        const films = await response.json();
+        // Hide loading spinner and show film list
+        document.getElementById('loadingSpinner').classList.add('d-none');
+        const filmList = document.getElementById('filmList');
+        filmList.innerHTML = '';
+
+        films.forEach(film => {
+          // Create a Bootstrap card for each film
+          const card = document.createElement('div');
+          card.className = 'card mb-3';
+          card.innerHTML = `
+          <div class="card-header">
+            <h5 class="card-title">${film.title} (Episode ${film.episodeId})</h5>
+          </div>
+          <div class="card-body">
+            <p class="card-text">Opening Crawl: ${film.openingCrawl}</p>
+            <button type="button" class="btn btn-primary" onclick="showFilmDetails(${film.id})">Show Details</button>
+            <!-- You can add more film details here as needed -->
+          </div>
+        `;
+
+          filmList.appendChild(card);
+        });
+
+        filmList.classList.remove('d-none');
+      } else {
+        throw new Error('Failed to retrieve film data from the API.');
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+      alert('Failed to retrieve film data. Please try again.');
+    }
+  }
+
+  // Function to fetch and display film details
+  async function showFilmDetails(filmId) {
+    try {
+      const response = await fetch(`${apiBaseUrl}/Films/${filmId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+
+      if (response.ok) {
+        const filmDetails = await response.json();
+
+        // Display film details in a modal
+        const filmDetailsModal = document.getElementById('filmDetailsModal');
+        highestZIndex += 5;
+        filmDetailsModal.style.zIndex = highestZIndex;
+        const filmDetailsContent = document.getElementById('filmDetailsContent');
+        const modalTitle = document.querySelector('#filmDetailsModal .modal-title');
+        modalTitle.textContent = `${filmDetails.title} (Episode ${filmDetails.episodeId})`;
+
+        // Customize this part to display more film details as needed
+        filmDetailsContent.innerHTML = `
+        <p><strong>Director:</strong> ${filmDetails.director}</p>
+        <p><strong>Producer:</strong> ${filmDetails.producer}</p>
+        <p><strong>Release Date:</strong> ${filmDetails.releaseDate}</p>
+        <p><strong>Opening Crawl:</strong> ${filmDetails.openingCrawl}</p>
+        <h5>Characters:</h5>
+        <ul id="filmCharacterList">
+          <!-- Character list items will be populated here -->
+        </ul>
+        <h5>Planets:</h5>
+        <ul id="filmPlanetList">
+          <!-- Planet list items will be populated here -->
+        </ul>
+        <h5>Starships:</h5>
+        <ul id="filmStarshipList">
+          <!-- Starship list items will be populated here -->
+        </ul>
+        <h5>Vehicles:</h5>
+        <ul id="filmVehicleList">
+          <!-- Vehicle list items will be populated here -->
+        </ul>
+        <h5>Species:</h5>
+        <ul id="filmSpecieList">
+          <!-- Specie list items will be populated here -->
+        </ul>
+      `;
+
+        await createButtonsForItems("filmCharacterList", filmDetails.characters, showPersonDetails);
+        await createButtonsForItems("filmPlanetList", filmDetails.planets, showPlanetDetails);
+        await createButtonsForItems("filmStarshipList", filmDetails.starships, showStarshipDetails);
+        await createButtonsForItems("filmVehicleList", filmDetails.vehicles, showVehicleDetails);
+        await createButtonsForItems("filmSpecieList", filmDetails.species, showSpecieDetails);
+
+        // Show the modal
+        $(filmDetailsModal).modal('show');
+      } else {
+        throw new Error('Failed to retrieve film details from the API.');
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+      alert('Failed to retrieve film details. Please try again.');
+    }
+  }
+
+  async function createButtonsForItems(elementId, items, itemDetailsFunction) {
+    const element = document.getElementById(elementId);
+
+    items.forEach(item => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'btn btn-secondary mr-2';
+      button.textContent = (item.name !== null && item.name !== undefined) ? item.name : item.title;
+
+      button.addEventListener('click', () => {
+        itemDetailsFunction(item.id);
+      });
+
+      element.appendChild(button);
+    });
+  }
+  
+  // Function to fetch and display character details in a modal
+  async function showPersonDetails(characterId) {
+    try {
+      const response = await fetch(`${apiBaseUrl}/People/${characterId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+
+      if (response.ok) {
+        const characterDetails = await response.json();
+
+        // Display character details in the modal
+        const characterDetailsModal = document.getElementById('characterDetailsModal');
+        highestZIndex += 5;
+        characterDetailsModal.style.zIndex = highestZIndex;
+        const characterDetailsContent = document.getElementById('characterDetailsContent');
+        const modalTitle = document.querySelector('#characterDetailsModal .modal-title');
+        modalTitle.textContent = `Character Details: ${characterDetails.name}`;
+
+        // Customize this part to display character details as needed
+        characterDetailsContent.innerHTML = `
+        <p><strong>Name:</strong> ${characterDetails.name}</p>
+        <p><strong>Height:</strong> ${characterDetails.height}</p>
+        <p><strong>Mass:</strong> ${characterDetails.mass}</p>
+        <p><strong>Hair Color:</strong> ${characterDetails.hairColor}</p>
+        <p><strong>Skin Color:</strong> ${characterDetails.skinColor}</p>
+        <p><strong>Eye Color:</strong> ${characterDetails.eyeColor}</p>
+        <p><strong>Birth Year:</strong> ${characterDetails.birthYear}</p>
+        <p><strong>Gender:</strong> ${characterDetails.gender}</p>        
+        <h5>Films:</h5>
+        <ul id="characterFilmList">
+          <!-- Films list items will be populated here -->
+        </ul>
+        <h5>Starships:</h5>
+        <ul id="characterStarshipList">
+          <!-- Starship list items will be populated here -->
+        </ul>
+        <h5>Vehicles:</h5>
+        <ul id="characterVehicleList">
+          <!-- Vehicle list items will be populated here -->
+        </ul>
+        <h5>Species:</h5>
+        <ul id="characterSpecieList">
+          <!-- Specie list items will be populated here -->
+        </ul>
+      `;
+        
+        await createButtonsForItems("characterFilmList", characterDetails.films, showFilmDetails);
+        await createButtonsForItems("characterStarshipList", characterDetails.starships, showStarshipDetails);
+        await createButtonsForItems("characterVehicleList", characterDetails.vehicles, showVehicleDetails);
+        await createButtonsForItems("characterSpecieList", characterDetails.species, showSpecieDetails);
+        
+        // Show the character details modal
+        $(characterDetailsModal).modal('show');
+      } else {
+        throw new Error('Failed to retrieve character details from the API.');
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+      alert('Failed to retrieve character details. Please try again.');
+    }
+  }
+
+  async function showPlanetDetails(planetId) {
+    try {
+      const response = await fetch(`${apiBaseUrl}/Planets/${planetId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+
+      if (response.ok) {
+        const planetDetails = await response.json();
+
+        // Display planet details in the modal
+        const planetDetailsModal = document.getElementById('planetDetailsModal');
+        highestZIndex += 5;
+        planetDetailsModal.style.zIndex = highestZIndex;
+        const planetDetailsContent = document.getElementById('planetDetailsContent');
+        const modalTitle = document.querySelector('#planetDetailsModal .modal-title');
+        modalTitle.textContent = `Planet Details: ${planetDetails.name}`;
+
+        // Customize this part to display planet details as needed
+        planetDetailsContent.innerHTML = `
+        <p><strong>Name:</strong> ${planetDetails.name}</p>
+        <p><strong>Climate:</strong> ${planetDetails.climate}</p>
+        <p><strong>Terrain:</strong> ${planetDetails.terrain}</p>
+        <p><strong>Surface Water:</strong> ${planetDetails.surfaceWater}</p>
+        <p><strong>Population:</strong> ${planetDetails.population}</p>
+        <p><strong>Gravity:</strong> ${planetDetails.gravity}</p>
+        <p><strong>Diameter:</strong> ${planetDetails.diameter}</p>
+        <p><strong>Orbital Period:</strong> ${planetDetails.orbitalPeriod}</p>
+        <p><strong>Rotation Period:</strong> ${planetDetails.rotationPeriod}</p>       
+        <h5>Films:</h5>
+        <ul id="planetFilmList">
+          <!-- Films list items will be populated here -->
+        </ul>
+        <h5>Residents:</h5>
+        <ul id="planetResidentList">
+          <!-- Residents list items will be populated here -->
+        </ul>
+      `;
+        
+        await createButtonsForItems("planetFilmList", planetDetails.films, showFilmDetails);
+        await createButtonsForItems("planetResidentList", planetDetails.residents, showPersonDetails);
+
+        // Show the planet details modal
+        $(planetDetailsModal).modal('show');
+      } else {
+        throw new Error('Failed to retrieve planet details from the API.');
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+      alert('Failed to retrieve planet details. Please try again.');
+    }
+  }
+
+  async function showStarshipDetails(starshipId) {
+    try {
+      const response = await fetch(`${apiBaseUrl}/Starships/${starshipId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+
+      if (response.ok) {
+        const starshipDetails = await response.json();
+
+        // Display starship details in the modal
+        const starshipDetailsModal = document.getElementById('starshipDetailsModal');
+        highestZIndex += 5;
+        starshipDetailsModal.style.zIndex = highestZIndex;
+        const starshipDetailsContent = document.getElementById('starshipDetailsContent');
+        const modalTitle = document.querySelector('#starshipDetailsModal .modal-title');
+        modalTitle.textContent = `Starship Details: ${starshipDetails.name}`;
+
+        // Customize this part to display starship details as needed
+        starshipDetailsContent.innerHTML = `
+        <p><strong>Name:</strong> ${starshipDetails.name}</p>
+        <p><strong>Model:</strong> ${starshipDetails.model}</p>
+        <p><strong>Manufacturer:</strong> ${starshipDetails.manufacturer}</p>
+        <p><strong>Cost in Credits:</strong> ${starshipDetails.costInCredits}</p>
+        <p><strong>Length:</strong> ${starshipDetails.length}</p>
+        <p><strong>Max Atmosphering Speed:</strong> ${starshipDetails.maxAtmospheringSpeed}</p>
+        <p><strong>Crew:</strong> ${starshipDetails.crew}</p>
+        <p><strong>Passengers:</strong> ${starshipDetails.passengers}</p>
+        <p><strong>Cargo Capacity:</strong> ${starshipDetails.cargoCapacity}</p>
+        <p><strong>Consumables:</strong> ${starshipDetails.consumables}</p>
+        <p><strong>Hyperdrive Rating:</strong> ${starshipDetails.hyperdriveRating}</p>
+        <p><strong>MGLT:</strong> ${starshipDetails.mglt}</p>
+        <p><strong>Starship Class:</strong> ${starshipDetails.starshipClass}</p>      
+        <h5>Films:</h5>
+        <ul id="starshipFilmList">
+          <!-- Films list items will be populated here -->
+        </ul>
+        <h5>Pilots:</h5>
+        <ul id="starshipPilotsList">
+          <!-- Pilots list items will be populated here -->
+        </ul>
+      `;
+
+        await createButtonsForItems("starshipFilmList", starshipDetails.films, showFilmDetails);
+        await createButtonsForItems("starshipPilotsList", starshipDetails.pilots, showPersonDetails);
+
+        // Show the starship details modal
+        $(starshipDetailsModal).modal('show');
+      } else {
+        throw new Error('Failed to retrieve starship details from the API.');
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+      alert('Failed to retrieve starship details. Please try again.');
+    }
+  }
+
+  async function showSpecieDetails(specieId) {
+    try {
+      const response = await fetch(`${apiBaseUrl}/Species/${specieId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+
+      if (response.ok) {        
+        const specieDetails = await response.json();
+
+        const specieDetailsModal = document.getElementById('specieDetailsModal');
+        highestZIndex += 5;
+        specieDetailsModal.style.zIndex = highestZIndex;        
+        const specieDetailsContent = document.getElementById('specieDetailsContent');
+        const modalTitle = document.querySelector('#specieDetailsModal .modal-title');
+        modalTitle.textContent = `Species Details: ${specieDetails.name}`;
+
+        specieDetailsContent.innerHTML = `
+        <p><strong>Name:</strong> ${specieDetails.name}</p>
+        <p><strong>Classification:</strong> ${specieDetails.classification}</p>
+        <p><strong>Designation:</strong> ${specieDetails.designation}</p>
+        <p><strong>Average Height:</strong> ${specieDetails.averageHeight}</p>
+        <p><strong>Skin Colors:</strong> ${specieDetails.skinColors}</p>
+        <p><strong>Hair Colors:</strong> ${specieDetails.hairColors}</p>
+        <p><strong>Eye Colors:</strong> ${specieDetails.eyeColors}</p>
+        <p><strong>Average Lifespan:</strong> ${specieDetails.averageLifespan}</p>
+        <p><strong>Homeworld:</strong> ${specieDetails.homeworld ? specieDetails.homeworld.name : 'Unknown'}</p>
+        <p><strong>Language:</strong> ${specieDetails.language}</p>
+        <h5>Films:</h5>
+        <ul id="specieFilmList">
+          <!-- Films list items will be populated here -->
+        </ul>
+        <h5>People:</h5>
+        <ul id="speciePeopleList">
+          <!-- People list items will be populated here -->
+        </ul>
+      `;
+        
+        await createButtonsForItems("specieFilmList", specieDetails.films, showFilmDetails);
+        await createButtonsForItems("speciePeopleList", specieDetails.people, showPersonDetails);
+
+        // Show the specie details modal
+        $(specieDetailsModal).modal('show');
+      } else {
+        throw new Error('Failed to retrieve specie details from the API.');
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+      alert('Failed to retrieve specie details. Please try again.');
+    }
+  }
+
+  async function showVehicleDetails(vehicleId) {
+    try {
+      const response = await fetch(`${apiBaseUrl}/Vehicles/${vehicleId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+
+      if (response.ok) {
+        const vehicleDetails = await response.json();
+
+        // Display vehicle details in the modal
+        const vehicleDetailsModal = document.getElementById('vehicleDetailsModal');
+        highestZIndex += 5;
+        vehicleDetailsModal.style.zIndex = highestZIndex;
+        const vehicleDetailsContent = document.getElementById('vehicleDetailsContent');
+        const modalTitle = document.querySelector('#vehicleDetailsModal .modal-title');
+        modalTitle.textContent = `Vehicle Details: ${vehicleDetails.name}`;
+
+        // Customize this part to display vehicle details as needed
+        vehicleDetailsContent.innerHTML = `
+        <p><strong>Name:</strong> ${vehicleDetails.name}</p>
+        <p><strong>Model:</strong> ${vehicleDetails.model}</p>
+        <p><strong>Manufacturer:</strong> ${vehicleDetails.manufacturer}</p>
+        <p><strong>Cost in Credits:</strong> ${vehicleDetails.costInCredits}</p>
+        <p><strong>Length:</strong> ${vehicleDetails.length}</p>
+        <p><strong>Max Atmosphering Speed:</strong> ${vehicleDetails.maxAtmospheringSpeed}</p>
+        <p><strong>Crew:</strong> ${vehicleDetails.crew}</p>
+        <p><strong>Passengers:</strong> ${vehicleDetails.passengers}</p>
+        <p><strong>Cargo Capacity:</strong> ${vehicleDetails.cargoCapacity}</p>
+        <p><strong>Consumables:</strong> ${vehicleDetails.consumables}</p>
+        <p><strong>Vehicle Class:</strong> ${vehicleDetails.vehicleClass}</p>
+        <h5>Films:</h5>
+        <ul id="vehicleFilmList">
+          <!-- Films list items will be populated here -->
+        </ul>
+        <h5>Pilots:</h5>
+        <ul id="vehiclePilotsList">
+          <!-- Pilots list items will be populated here -->
+        </ul>
+      `;
+
+        await createButtonsForItems("vehicleFilmList", vehicleDetails.films, showFilmDetails);
+        await createButtonsForItems("vehiclePilotsList", vehicleDetails.pilots, showPersonDetails);
+
+        // Show the vehicle details modal
+        $(vehicleDetailsModal).modal('show');
+      } else {
+        throw new Error('Failed to retrieve vehicle details from the API.');
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+      alert('Failed to retrieve vehicle details. Please try again.');
+    }
+  }
+
+  // Function to toggle between login and registration forms
+  function toggleForms(showLoginForm) {
+    const loginFormContainer = document.getElementById('loginFormContainer');
+    const registrationFormContainer = document.getElementById('registrationFormContainer');
+    const showLoginLink = document.getElementById('showLoginLink');
+    const showRegistrationLink = document.getElementById('showRegistrationLink');
+
+    if (showLoginForm) {
+      loginFormContainer.style.display = 'block';
+      registrationFormContainer.style.display = 'none';
+      showLoginLink.style.display = 'none';
+      showRegistrationLink.style.display = 'block';
+    } else {
+      loginFormContainer.style.display = 'none';
+      registrationFormContainer.style.display = 'block';
+      showLoginLink.style.display = 'block';
+      showRegistrationLink.style.display = 'none';
+    }
+  }
+
+  // Event handler for "Register" link click
+  document.getElementById('showRegistrationLink').addEventListener('click', function (e) {
+    e.preventDefault();
+    toggleForms(false); // Show registration form
+  });
+
+  // Event handler for "Login" link click
+  document.getElementById('showLoginLink').addEventListener('click', function (e) {
+    e.preventDefault();
+    toggleForms(true); // Show login form
+  });
+
+  // Event handler for "Logout" button click
+  document.getElementById('logoutButton').addEventListener('click', function (e) {
+    e.preventDefault();
+    clearUserDataCookie();
+    authToken = null;
+    togglePages();
+  });
+  
+  // Initial page setup
+
+  // Retrieve authentication token from cookie on page load
+  const userData = getUserDataFromCookie();
+  authToken = userData ? userData.Token : null;
+  
+  togglePages();
+</script>
+</body>
+</html>
